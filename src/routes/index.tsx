@@ -7,6 +7,7 @@ import {
   Sparkles, ShieldCheck, Award, Clock, Home as HomeIcon, KeyRound, Wallet,
   Building, Calculator, Globe, Filter,
 } from "lucide-react";
+import heroDubai from "@/assets/hero-dubai.jpg";
 
 export const Route = createFileRoute("/")({ component: App });
 
