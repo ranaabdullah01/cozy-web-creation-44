@@ -246,11 +246,18 @@ function Hero({ cfg, setSection }: { cfg: typeof DEFAULT_CFG; setSection: (s: st
   const wa = cfg.whatsapp.replace(/\D/g, "");
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden"
-      style={{ background: "radial-gradient(ellipse at top,#142850 0%,#0A1628 50%,#050D1A 100%)" }}>
-      <Particles />
-      <div className="absolute inset-0 opacity-20"
+    <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden bg-[#050D1A]">
+      {/* Background image with Ken Burns slow zoom */}
+      <div className="absolute inset-0 overflow-hidden">
+        <img src={heroDubai} alt="Dubai skyline at golden hour" width={1920} height={1280}
+          className="w-full h-full object-cover scale-110 animate-[kenburns_20s_ease-in-out_infinite_alternate]" />
+      </div>
+      {/* Cinematic gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050D1A]/70 via-[#0A1628]/60 to-[#050D1A]/95" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#050D1A_85%)]" />
+      <div className="absolute inset-0 opacity-30"
         style={{ backgroundImage: "radial-gradient(circle at 20% 30%,#C9A84C 0%,transparent 40%),radial-gradient(circle at 80% 70%,#0F2040 0%,transparent 50%)" }} />
+      <Particles />
 
       <div className="relative max-w-5xl mx-auto px-6 text-center py-32">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#C9A84C]/40 bg-[#C9A84C]/10 mb-8 text-xs uppercase tracking-[0.3em] text-[#E8D5A3]">
