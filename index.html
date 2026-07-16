@@ -529,6 +529,62 @@ function contactAbout(title){
 loadListings();
 loadOffplan();
 loadCommunities();
-</script>
+
+/* SCROLL REVEAL — auto-mark section heads + grids + cards */
+document.querySelectorAll('.section-head').forEach(el=>el.classList.add('reveal-target'));
+document.querySelectorAll('.grid, .visa-grid, .calc-wrap, .contact-grid').forEach(el=>{
+  el.classList.add('stagger');
+});
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+},{threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.section-head, .stagger, .visa-tier, .community').forEach(el=>io.observe(el));
+
+/* COUNT-UP for hero stats */
+const countUp = (el, target, dur=1800) => {
+  const start = performance.now();
+  const step = (t)=>{
+    const p = Math.min(1,(t-start)/dur);
+    const eased = 1 - Math.pow(1-p,3);
+    el.textContent = Math.floor(eased*target) + (el.dataset.suffix||'');
+    if(p<1) requestAnimationFrame(step);
+    else el.textContent = target + (el.dataset.suffix||'');
+  };
+  requestAnimationFrame(step);
+};
+const statsObs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.n').forEach(n=>{
+        const raw = n.textContent.trim();
+        const num = parseInt(raw,10);
+        const suffix = raw.replace(/[0-9]/g,'');
+        n.dataset.suffix = suffix;
+        countUp(n, num);
+      });
+      statsObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.4});
+const statsEl = document.querySelector('.stats');
+if(statsEl) statsObs.observe(statsEl);
+
+/* NAV shrink on scroll */
+const navEl = document.querySelector('header.nav');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY > 40){ navEl.style.padding='.5rem 0'; navEl.style.background='rgba(10,22,40,.95)'; }
+  else { navEl.style.padding='1rem 0'; navEl.style.background='rgba(10,22,40,.85)'; }
+},{passive:true});
+
+/* PARALLAX on hero bg */
+const heroBg = document.querySelector('.hero-bg');
+window.addEventListener('scroll',()=>{
+  if(heroBg && window.scrollY < window.innerHeight){
+    heroBg.style.transform = `translateY(${window.scrollY*0.35}px)`;
+  }
+},{passive:true});
+
 </body>
 </html>
