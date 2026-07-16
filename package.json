@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "bun serve.ts",
-    "build": "echo 'Static site — nothing to build'",
+    "build": "echo 'No build step — Cloudflare Pages Functions'",
+    "build:dev": "echo 'No build step — Cloudflare Pages Functions'",
     "preview": "bun serve.ts"
   }
 }
