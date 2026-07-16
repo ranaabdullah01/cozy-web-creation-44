@@ -224,10 +224,13 @@ function Navbar({ section, setSection, cfg }: { section: string; setSection: (s:
 
 /* ==================== HERO ==================== */
 function Particles() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   const dots = useMemo(() => Array.from({ length: 22 }, () => ({
     left: Math.random() * 100, top: Math.random() * 100,
     delay: Math.random() * 6, size: 2 + Math.random() * 3,
   })), []);
+  if (!mounted) return null;
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {dots.map((d, i) => (
@@ -238,6 +241,7 @@ function Particles() {
     </div>
   );
 }
+
 
 function HeroSlideshow({ images }: { images: string[] }) {
   const [idx, setIdx] = useState(0);
