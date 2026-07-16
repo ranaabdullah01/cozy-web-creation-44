@@ -28,7 +28,7 @@ const mockEnv = {
   R2_PUBLIC_URL: process.env.R2_PUBLIC_URL || "",
 };
 
-async function dispatchFunction(request: Request, pathname: string) {
+async function dispatchFunction(request, pathname) {
   // Try exact match first: functions/api/foo.ts, then dynamic [key], then catch-all
   const tryPaths = [];
   const clean = pathname.replace(/^\/+/, "");
