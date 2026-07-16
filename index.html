@@ -45,12 +45,15 @@
 
   /* HERO */
   .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:6rem 1.5rem 4rem}
-  .hero-bg{position:absolute;inset:-5%;z-index:0;background:
-    radial-gradient(ellipse at 20% 20%,rgba(212,175,55,.22),transparent 55%),
-    radial-gradient(ellipse at 80% 80%,rgba(212,175,55,.15),transparent 55%),
-    linear-gradient(135deg,#0a1628 0%,#1a2942 50%,#0f1e38 100%);
+  .hero-bg{position:absolute;inset:-5%;z-index:0;
+    background:
+      linear-gradient(180deg,rgba(10,22,40,.75) 0%,rgba(10,22,40,.55) 40%,rgba(10,22,40,.92) 100%),
+      url('hero-dubai.jpg') center/cover no-repeat;
     animation:kenburns 22s ease-in-out infinite alternate}
   @keyframes kenburns{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.15) translate(-2%,-1.5%)}}
+  .hero-bg::before{content:'';position:absolute;inset:0;background:
+    radial-gradient(ellipse at 20% 20%,rgba(212,175,55,.25),transparent 55%),
+    radial-gradient(ellipse at 80% 80%,rgba(212,175,55,.18),transparent 55%)}
   .hero-bg::after{content:'';position:absolute;inset:0;background-image:
     radial-gradient(circle at 20% 30%,rgba(212,175,55,.6) 1px,transparent 2px),
     radial-gradient(circle at 70% 60%,rgba(212,175,55,.4) 1px,transparent 2px),
