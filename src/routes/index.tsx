@@ -13,8 +13,7 @@ import heroDubai3 from "@/assets/hero-dubai-3.jpg";
 
 export const Route = createFileRoute("/")({ component: App });
 
-/* ==================== CONFIG & API ==================== */
-const API_BASE = (import.meta.env.VITE_API_URL as string | undefined) || "https://ak-realestate-api.ranabullah01.workers.dev";
+/* ==================== CONFIG & LOCAL DATA ==================== */
 
 const DEFAULT_CFG = {
   agentName: "Ahmed Khan",
@@ -60,6 +59,124 @@ type Community = {
   highlights?: string[]; nearbyLandmarks?: string[]; metroStation?: string;
   communityType?: string; popular?: boolean;
 };
+
+const DEMO_LISTINGS: Listing[] = [
+  {
+    id: "DT-001",
+    title: "Skyline Residence Downtown",
+    type: "Apartment",
+    status: "for-sale",
+    price: 3250000,
+    community: "Downtown Dubai",
+    building: "Boulevard Heights",
+    bedrooms: 2,
+    bathrooms: 3,
+    sqft: 1480,
+    floor: "High Floor",
+    view: "Burj Khalifa",
+    furnishing: "Furnished",
+    permit: "AK-1001",
+    description: "A polished downtown residence with floor-to-ceiling views, refined finishes, and immediate access to Dubai's premium lifestyle destinations.",
+    features: ["Balcony", "Pool", "Gym", "Concierge", "Covered Parking"],
+    images: [heroDubai],
+    featured: true,
+  },
+  {
+    id: "MJ-002",
+    title: "Waterfront Villa at Palm Jumeirah",
+    type: "Villa",
+    status: "for-sale",
+    price: 12400000,
+    community: "Palm Jumeirah",
+    building: "Frond Villas",
+    bedrooms: 5,
+    bathrooms: 6,
+    sqft: 6100,
+    floor: "Ground + 1",
+    view: "Private Beach",
+    furnishing: "Unfurnished",
+    permit: "AK-1002",
+    description: "A private beachfront address created for families who want space, security, and an unmistakable Dubai waterfront setting.",
+    features: ["Private Beach", "Garden", "Maid Room", "Driver Room", "Private Pool"],
+    images: [heroDubai2],
+    featured: true,
+  },
+  {
+    id: "DM-003",
+    title: "Marina View Penthouse",
+    type: "Penthouse",
+    status: "for-rent",
+    price: 420000,
+    community: "Dubai Marina",
+    building: "Marina Promenade",
+    bedrooms: 4,
+    bathrooms: 5,
+    sqft: 3920,
+    floor: "Penthouse",
+    view: "Marina Skyline",
+    furnishing: "Fully Furnished",
+    permit: "AK-1003",
+    description: "An elevated marina home with generous entertaining space, panoramic water views, and easy access to the promenade.",
+    features: ["Terrace", "Sea View", "Smart Home", "Gym", "Pool"],
+    images: [heroDubai3],
+    featured: true,
+  },
+];
+
+const DEMO_OFFPLAN: Offplan[] = [
+  {
+    id: "OP-001",
+    projectName: "Azure Bay Residences",
+    developer: "Emaar",
+    community: "Dubai Creek Harbour",
+    types: ["1 Bedroom", "2 Bedroom", "3 Bedroom"],
+    startingPrice: 1850000,
+    handoverDate: "Q4 2028",
+    paymentPlan: { display: "20% Down | 60% Construction | 20% Handover" },
+    description: "Waterfront apartments with strong rental fundamentals and long-term capital growth potential.",
+    highlights: ["Waterfront", "Flexible Payment Plan", "Creek Views"],
+    goldenVisaEligible: true,
+    image: heroDubai2,
+    featured: true,
+  },
+  {
+    id: "OP-002",
+    projectName: "The Orchard Villas",
+    developer: "Nakheel",
+    community: "Meydan",
+    types: ["4 Bedroom", "5 Bedroom"],
+    startingPrice: 5800000,
+    handoverDate: "Q2 2027",
+    paymentPlan: { display: "10% Down | 70% Construction | 20% Handover" },
+    description: "Contemporary family villas in a low-density community with parks, schools, and quick city access.",
+    highlights: ["Family Community", "Parks", "Premium Villas"],
+    goldenVisaEligible: true,
+    image: heroDubai3,
+    featured: true,
+  },
+  {
+    id: "OP-003",
+    projectName: "Luxe Tower Business Bay",
+    developer: "Sobha",
+    community: "Business Bay",
+    types: ["Studio", "1 Bedroom", "2 Bedroom"],
+    startingPrice: 1200000,
+    handoverDate: "Q1 2029",
+    paymentPlan: { display: "15% Down | 55% Construction | 30% Handover" },
+    description: "High-rise city apartments designed for investors seeking central location and strong rental demand.",
+    highlights: ["Canal Views", "Central Location", "High ROI"],
+    goldenVisaEligible: false,
+    image: heroDubai,
+    featured: true,
+  },
+];
+
+const DEMO_COMMUNITIES: Community[] = [
+  { id: "C-001", name: "Downtown Dubai", communityType: "Luxury City Living", avgApartmentPrice: 2500000, avgRentalYield: "6.2", popular: true },
+  { id: "C-002", name: "Palm Jumeirah", communityType: "Waterfront Villas", avgApartmentPrice: 4300000, avgRentalYield: "5.8", popular: true },
+  { id: "C-003", name: "Dubai Marina", communityType: "Marina Lifestyle", avgApartmentPrice: 2100000, avgRentalYield: "7.1", popular: true },
+  { id: "C-004", name: "Dubai Hills", communityType: "Family Community", avgApartmentPrice: 1800000, avgRentalYield: "6.5", popular: false },
+];
 
 /* ==================== UTIL ==================== */
 const aed = (n?: number) => n ? `AED ${Number(n).toLocaleString("en-US")}` : "AED —";
@@ -682,11 +799,8 @@ function PropertyModal({ l, cfg, onClose }: { l: Listing | null; cfg: typeof DEF
   const wa = cfg.whatsapp.replace(/\D/g, "");
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const r = await fetch(`${API_BASE}/leads/contact`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, propertyId: l.id, propertyTitle: l.title, source: "property-modal" }) });
-      if (r.ok) { toast("Message sent — we'll be in touch shortly."); onClose(); }
-      else toast("Could not send. Try WhatsApp instead.", "error");
-    } catch { toast("Network error. Try again.", "error"); }
+    toast("Message saved locally — use WhatsApp for direct sending.");
+    onClose();
   };
   return (
     <div className="fixed inset-0 z-[90] bg-black/70 backdrop-blur-sm overflow-y-auto" onClick={onClose}>
@@ -765,10 +879,8 @@ function ValuationPage({ cfg }: { cfg: typeof DEFAULT_CFG }) {
   const inp = "w-full px-4 py-3 rounded-lg border border-black/10 bg-white text-sm focus:border-[#C9A84C] outline-none";
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const r = await fetch(`${API_BASE}/leads/valuation`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
-      if (r.ok) { setDone(true); toast("Valuation request received."); } else toast("Try again.", "error");
-    } catch { toast("Network error.", "error"); }
+    setDone(true);
+    toast("Valuation request saved locally.");
   };
   const wa = cfg.whatsapp.replace(/\D/g, "");
   return (
@@ -903,10 +1015,8 @@ function MessageForm({ inp }: { inp: string }) {
   const [f, setF] = useState({ name: "", phone: "", whatsapp: "", email: "", inquiryType: "", budget: "", message: "" });
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const r = await fetch(`${API_BASE}/leads/contact`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
-      if (r.ok) { toast("Message sent."); setF({ name: "", phone: "", whatsapp: "", email: "", inquiryType: "", budget: "", message: "" }); } else toast("Try again.", "error");
-    } catch { toast("Network error.", "error"); }
+    toast("Message saved locally — use WhatsApp for direct sending.");
+    setF({ name: "", phone: "", whatsapp: "", email: "", inquiryType: "", budget: "", message: "" });
   };
   return (
     <form onSubmit={submit} className="grid md:grid-cols-2 gap-4">
@@ -926,10 +1036,8 @@ function ViewingForm({ inp }: { inp: string }) {
   const [f, setF] = useState({ name: "", phone: "", email: "", property: "", date: "", time: "" });
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const r = await fetch(`${API_BASE}/leads/viewing`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
-      if (r.ok) { toast("Viewing request received."); setF({ name: "", phone: "", email: "", property: "", date: "", time: "" }); } else toast("Try again.", "error");
-    } catch { toast("Network error.", "error"); }
+    toast("Viewing request saved locally — use WhatsApp for direct sending.");
+    setF({ name: "", phone: "", email: "", property: "", date: "", time: "" });
   };
   return (
     <form onSubmit={submit} className="grid md:grid-cols-2 gap-4">
@@ -960,10 +1068,8 @@ function GoldenVisaPage({ listings, cfg, onOpen }: { listings: Listing[]; cfg: t
   const inp = "w-full px-4 py-3 rounded-lg border border-black/10 bg-white text-sm focus:border-[#C9A84C] outline-none";
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const r = await fetch(`${API_BASE}/leads/goldenvisa`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
-      if (r.ok) { toast("Enquiry received."); setF({ name: "", phone: "", whatsapp: "", email: "", budget: "", status: "" }); } else toast("Try again.", "error");
-    } catch { toast("Network error.", "error"); }
+    toast("Enquiry saved locally — use WhatsApp for direct sending.");
+    setF({ name: "", phone: "", whatsapp: "", email: "", budget: "", status: "" });
   };
   return (
     <div className="pt-24">
@@ -1175,32 +1281,13 @@ function FloatingActions({ cfg }: { cfg: typeof DEFAULT_CFG }) {
 
 /* ==================== APP ==================== */
 function App() {
-  const [cfg, setCfg] = useState(DEFAULT_CFG);
-  const [listings, setListings] = useState<Listing[]>([]);
-  const [offplan, setOffplan] = useState<Offplan[]>([]);
-  const [communities, setCommunities] = useState<Community[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [cfg] = useState(DEFAULT_CFG);
+  const [listings] = useState<Listing[]>(DEMO_LISTINGS);
+  const [offplan] = useState<Offplan[]>(DEMO_OFFPLAN);
+  const [communities] = useState<Community[]>(DEMO_COMMUNITIES);
+  const [loading] = useState(false);
   const [section, setSection] = useState("home");
   const [modalListing, setModalListing] = useState<Listing | null>(null);
-
-  useEffect(() => {
-    const t = Date.now();
-    (async () => {
-      const fetchJson = async (path: string) => {
-        try { const r = await fetch(`${API_BASE}${path}?t=${t}`); if (!r.ok) return null; return await r.json(); }
-        catch { return null; }
-      };
-      const [p, l, o, c] = await Promise.all([
-        fetchJson("/api/agent-profile"), fetchJson("/api/listings"),
-        fetchJson("/api/offplan"), fetchJson("/api/communities"),
-      ]);
-      if (p?.success && p.profile) setCfg(prev => ({ ...prev, ...p.profile, social: { ...prev.social, ...(p.profile.social || {}) }, stats: { ...prev.stats, ...(p.profile.stats || {}) } }));
-      if (l?.success) setListings(l.listings || []);
-      if (o?.success) setOffplan(o.projects || []);
-      if (c?.success) setCommunities(c.communities || []);
-      setLoading(false);
-    })();
-  }, []);
 
   const openModal = (l: Listing) => setModalListing(l);
 
