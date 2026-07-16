@@ -1,0 +1,13 @@
+{
+  "name": "ak-realestate",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bunx --bun serve public -l 8080 --no-clipboard",
+    "build": "echo 'Static site — nothing to build'",
+    "preview": "bunx --bun serve public -l 8080 --no-clipboard"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
