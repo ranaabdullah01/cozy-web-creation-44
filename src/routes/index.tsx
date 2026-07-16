@@ -239,6 +239,29 @@ function Particles() {
   );
 }
 
+function HeroSlideshow({ images }: { images: string[] }) {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % images.length), 3000);
+    return () => clearInterval(t);
+  }, [images.length]);
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {images.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt="Dubai skyline"
+          width={1920}
+          height={1280}
+          loading={i === 0 ? "eager" : "lazy"}
+          className={`absolute inset-0 w-full h-full object-cover scale-110 animate-[kenburns_20s_ease-in-out_infinite_alternate] transition-opacity duration-1000 ${i === idx ? "opacity-100" : "opacity-0"}`}
+        />
+      ))}
+    </div>
+  );
+}
+
 function Hero({ cfg, setSection }: { cfg: typeof DEFAULT_CFG; setSection: (s: string) => void }) {
   const { ref, seen } = useInView<HTMLDivElement>();
   const years = useCountUp(Number(cfg.stats.yearsExperience) || 12, 1400, seen);
