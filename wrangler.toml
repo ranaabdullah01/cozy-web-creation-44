@@ -1,0 +1,15 @@
+# Cloudflare Workers deployment config
+# Deploy with: bunx wrangler deploy
+name = "ak-web-services"
+main = ".output/server/index.mjs"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Serve static assets (JS, CSS, images) from the built output
+[assets]
+directory = ".output/public"
+binding = "ASSETS"
+
+# Environment variables (add secrets via: bunx wrangler secret put NAME)
+# [vars]
+# PUBLIC_VAR = "value"
