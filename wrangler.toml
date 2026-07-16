@@ -1,17 +1,15 @@
-name = "ak-realestate"
-pages_build_output_dir = "public"
+# Cloudflare Workers deployment config
+# Deploy with: bunx wrangler deploy
+name = "ak-web-services"
+main = ".output/server/index.mjs"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Replace with your D1 database ID from `wrangler d1 list`
-[[d1_databases]]
-binding = "DB"
-database_name = "ak-realestate"
-database_id = "YOUR_D1_DATABASE_ID"
+# Serve static assets (JS, CSS, images) from the built output
+[assets]
+directory = ".output/public"
+binding = "ASSETS"
 
-# Replace with your R2 bucket name
-[[r2_buckets]]
-binding = "BUCKET"
-bucket_name = "ak-realestate-media"
-
-# ADMIN_TOKEN is set in Cloudflare Pages → Settings → Variables (encrypted).
+# Environment variables (add secrets via: bunx wrangler secret put NAME)
+# [vars]
+# PUBLIC_VAR = "value"
