@@ -3,11 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "dev": "bunx --bun serve public --no-clipboard --single",
+    "dev": "bun serve.ts",
     "build": "echo 'Static site — nothing to build'",
-    "preview": "bunx --bun serve public --no-clipboard --single"
-  },
-  "devDependencies": {
-    "serve": "^14.2.4"
+    "preview": "bun serve.ts"
   }
 }
