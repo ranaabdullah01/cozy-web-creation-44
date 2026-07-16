@@ -13,7 +13,7 @@ for (let i = 0; i < args.length; i++) {
 }
 
 const PUBLIC = join(import.meta.dir, "public");
-const MIME: Record<string, string> = {
+const MIME = {
   ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8",
   ".js": "application/javascript; charset=utf-8", ".json": "application/json",
   ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg",
@@ -22,15 +22,15 @@ const MIME: Record<string, string> = {
 
 // Minimal mock env so functions/*.ts can run locally.
 const mockEnv = {
-  DB: null as any,
-  BUCKET: null as any,
+  DB: null,
+  BUCKET: null,
   ADMIN_TOKEN: process.env.ADMIN_TOKEN || "dev-token",
   R2_PUBLIC_URL: process.env.R2_PUBLIC_URL || "",
 };
 
 async function dispatchFunction(request: Request, pathname: string) {
   // Try exact match first: functions/api/foo.ts, then dynamic [key], then catch-all
-  const tryPaths: Array<{ file: string; params: Record<string, string> }> = [];
+  const tryPaths = [];
   const clean = pathname.replace(/^\/+/, "");
 
   tryPaths.push({ file: join(import.meta.dir, "functions", clean + ".ts"), params: {} });
