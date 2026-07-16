@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "re
 
 export const Route = createFileRoute("/admin")({ component: AdminApp });
 
-const API_BASE = "https://ak-realestate-api.ranabullah01.workers.dev";
+const API_BASE = (import.meta.env.VITE_API_URL as string | undefined) || "https://ak-realestate-api.ranaabdullah01.workers.dev";
 const TOKEN_KEY = "ak_admin_token";
 
 /* ---------------- Types ---------------- */

@@ -14,7 +14,7 @@ import heroDubai3 from "@/assets/hero-dubai-3.jpg";
 export const Route = createFileRoute("/")({ component: App });
 
 /* ==================== CONFIG & API ==================== */
-const API_BASE = "https://ak-realestate-api.ranabullah01.workers.dev";
+const API_BASE = (import.meta.env.VITE_API_URL as string | undefined) || "https://ak-realestate-api.ranaabdullah01.workers.dev";
 
 const DEFAULT_CFG = {
   agentName: "Ahmed Khan",
