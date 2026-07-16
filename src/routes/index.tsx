@@ -8,6 +8,8 @@ import {
   Building, Calculator, Globe, Filter,
 } from "lucide-react";
 import heroDubai from "@/assets/hero-dubai.jpg";
+import heroDubai2 from "@/assets/hero-dubai-2.jpg";
+import heroDubai3 from "@/assets/hero-dubai-3.jpg";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -247,11 +249,9 @@ function Hero({ cfg, setSection }: { cfg: typeof DEFAULT_CFG; setSection: (s: st
 
   return (
     <section className="relative min-h-screen flex items-center justify-center text-white overflow-hidden bg-[#050D1A]">
-      {/* Background image with Ken Burns slow zoom */}
-      <div className="absolute inset-0 overflow-hidden">
-        <img src={heroDubai} alt="Dubai skyline at golden hour" width={1920} height={1280}
-          className="w-full h-full object-cover scale-110 animate-[kenburns_20s_ease-in-out_infinite_alternate]" />
-      </div>
+      {/* Rotating background slideshow (static images, ~3s each) */}
+      <HeroSlideshow images={[heroDubai, heroDubai2, heroDubai3]} />
+
       {/* Cinematic gradient overlays */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050D1A]/70 via-[#0A1628]/60 to-[#050D1A]/95" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#050D1A_85%)]" />
