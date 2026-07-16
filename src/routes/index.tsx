@@ -1281,7 +1281,7 @@ function FloatingActions({ cfg }: { cfg: typeof DEFAULT_CFG }) {
 
 /* ==================== APP ==================== */
 function App() {
-  const [cfg, setCfg] = useState(DEFAULT_CFG);
+  const [cfg] = useState(DEFAULT_CFG);
   const [listings] = useState<Listing[]>(DEMO_LISTINGS);
   const [offplan] = useState<Offplan[]>(DEMO_OFFPLAN);
   const [communities] = useState<Community[]>(DEMO_COMMUNITIES);
